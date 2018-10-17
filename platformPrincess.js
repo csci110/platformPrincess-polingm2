@@ -32,11 +32,19 @@ class Platform extends Support {
     }
 }
 
-let startPlatform = new Platform(0, 400, "start.png");
-startPlatform.name = "The starting Platform";
 
-let finishPlatform = new Platform(game.displayWidth - 48 * 2, 400, "finish.png");
-finishPlatform.name = "The finish platform";
+
+let startPlatform1 = new Platform(0, 400, "tileFloatCenter.png");
+startPlatform1.name = "The first starting Platform";
+
+let startPlatform2 = new Platform(startPlatform1.x + 128, 400, "tileFloatRight.png");
+startPlatform2.name = "The second starting platform";
+
+let finishPlatform1 = new Platform(game.displayWidth - 48 * 2, 400, "tileFloatCenter.png");
+finishPlatform1.name = "The finish platform";
+
+let finishPlatform2 = new Platform(finishPlatform1.x - 128, 400, "tileFloatLeft.png");
+finishPlatform2.name = "the second finish platform";
 
 
 class Slider1 extends Platform {
@@ -44,23 +52,23 @@ class Slider1 extends Platform {
         super(x, y, "slider.png");
         this.name = "A sliding support";
         this.angle = angle;
-        this.speed = 48;
+        this.speed = 38;
         this.accelerateOnBounce = false;
 
     }
     handleGameLoop() {
-        if (this.x <= startPlatform.x + 48 * 3) {
+        if (this.x <= startPlatform2.x + 48 * 3) {
             this.angle = 90;
         }
-        if (this.y <= 250) {
+        if (this.y <= 200) {
             this.angle = 0;
         }
-        if (this.x >= finishPlatform.x - 48 * 5) {
+        if (this.x >= finishPlatform1.x - 48 * 5) {
             this.angle = 270;
         }
-        if (this.y >= finishPlatform.y + 48) {
+        if (this.y >= finishPlatform1.y + 48) {
             this.angle = 180;
-            if (this.x <= startPlatform.x + 48 * 3) {
+            if (this.x <= startPlatform2.x + 48 * 3) {
                 this.angle = 90;
             }
         }
@@ -71,33 +79,33 @@ class Slider2 extends Platform {
         super(x, y, "slider.png");
         this.name = "A sliding support";
         this.angle = angle;
-        this.speed = 48;
+        this.speed = 38;
         this.accelerateOnBounce = false;
 
     }
     handleGameLoop() {
-        if (this.x == startPlatform.x + 48 * 3) {
+        if (this.x == startPlatform2.x + 48 * 3) {
             this.angle = 90;
         }
-        if (this.y <= 250) {
+        if (this.y <= 200) {
             this.angle = 0;
         }
-        if (this.x >= finishPlatform.x - 48 * 5) {
+        if (this.x >= finishPlatform1.x - 48 * 5) {
             this.angle = 270;
         }
-        if (this.y >= finishPlatform.y + 48) {
+        if (this.y >= finishPlatform1.y + 48) {
             this.angle = 180;
-            if (this.x <= startPlatform.x + 48 * 3) {
+            if (this.x <= startPlatform2.x + 48 * 3) {
                 this.angle = 90;
             }
         }
 
     }
 }
-new Slider1(startPlatform.x + 48 * 3, startPlatform.y + 48, 0);
+new Slider1(startPlatform2.x + 48 * 3, startPlatform2.y + 48, 0);
 
 
-new Slider2(finishPlatform.x - 48 * 5, finishPlatform.y + 48, 180);
+new Slider2(finishPlatform1.x - 48 * 5, finishPlatform1.y + 48, 180);
 
 class Princess extends Sprite {
     constructor() {
@@ -163,13 +171,13 @@ ann.name = "Princess Ann";
 class Door extends Sprite {
     constructor() {
         super();
-        this.setImage("door.png");
+        this.setImage("TombStone1.png");
         this.x = game.displayWidth - 48;
-        this.y = finishPlatform.y - 2 * 48;
+        this.y = finishPlatform1.y - 48;
         this.accelerateOnBounce = false;
     }
     handleCollision(otherSprite) {
-        if (otherSprite === ann) {
+        if (otherSprite === Box) {
             game.end("Congratulations!\n\nPrincess Ann can now pursue the\nStranger deeper into the castle!");
         }
     }
@@ -189,11 +197,10 @@ class Box extends Sprite {
         this.isFalling = false;
 
     }
-    handleCollision() {
-        this.x = this.x + 1;
 
 
-    }
+
+    
 
     handleBoundaryContact() {
         game.end("You lost your box!");
@@ -207,8 +214,14 @@ class Box extends Sprite {
             this.isFalling = true;
             this.y = this.y + 4;
         }
+        if (supports.length > 0 && supports[0]instanceof Platform) {
+            this.angle = supports[0].angle;
+            this.speed = supports[0].speed;
+            this.y = supports[0].y - this.height;
+        }
     }
 
 }
 
-//new Box(40, 300);
+new Box(96, 300);
+Box.name = "Box";
