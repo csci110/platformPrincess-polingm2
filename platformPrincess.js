@@ -177,8 +177,8 @@ class Door extends Sprite {
         this.accelerateOnBounce = false;
     }
     handleCollision(otherSprite) {
-        if (otherSprite === Box) {
-            game.end("Congratulations!\n\nPrincess Ann can now pursue the\nStranger deeper into the castle!");
+        if (otherSprite === box) {
+            game.end("Congratulations!\n\nYou delivered your box!");
         }
     }
 }
@@ -189,8 +189,8 @@ exit.name = "The exit";
 class Box extends Sprite {
     constructor(x, y) {
         super();
-        this.x = x;
-        this.y = y;
+        this.x = 96;
+        this.y = 300;
         this.speed = 150;
         this.speedWhenWalking = 200;
         this.setImage("Crate.png");
@@ -223,5 +223,6 @@ class Box extends Sprite {
 
 }
 
-new Box(96, 300);
-Box.name = "Box";
+let box = new Box();
+box.name = "a box";
+
