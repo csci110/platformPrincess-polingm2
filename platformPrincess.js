@@ -3,11 +3,12 @@ import { Sprite } from "../sgc/sgc.js";
 
 game.setBackground("Cemetery.png");
 
+
 class wall extends Sprite {
     constructor() {
         super();
         this.name = "A Wall";
-        this.setImage("wall.png");
+        this.setImage("w.png");
         this.x = 0;
         this.y = 175;
         this.accelerateOnBounce = false;
@@ -49,7 +50,7 @@ finishPlatform2.name = "the second finish platform";
 
 class Slider1 extends Platform {
     constructor(x, y, angle) {
-        super(x, y, "slider.png");
+        super(x, y, "newslider.png");
         this.name = "A sliding support";
         this.angle = angle;
         this.speed = 38;
@@ -76,7 +77,7 @@ class Slider1 extends Platform {
 }
 class Slider2 extends Platform {
     constructor(x, y, angle) {
-        super(x, y, "slider.png");
+        super(x, y, "newslider.png");
         this.name = "A sliding support";
         this.angle = angle;
         this.speed = 38;
@@ -112,7 +113,7 @@ class Princess extends Sprite {
         super();
         this.setImage("ann.png");
         this.x = 48;
-        this.y = 96;
+        this.y = 48;
         this.speed = 0;
         this.speedWhenWalking = 125;
         this.defineAnimation("left", 9, 11);
@@ -198,10 +199,6 @@ class Box extends Sprite {
 
     }
 
-
-
-    
-
     handleBoundaryContact() {
         game.end("You lost your box!");
     }
@@ -226,3 +223,54 @@ class Box extends Sprite {
 let box = new Box();
 box.name = "a box";
 
+class Cloud extends Sprite {
+    constructor(x, y, speed){
+        super();
+        this.setImage("cloud.png");
+        this.speed = speed;
+        this.angle = 0;
+        this.x = x;
+        this.y = y;
+    }
+    handleBoundaryContact(){
+        game.removeSprite(this);
+        new Cloud(5, Math.random(1) * 100, 100);
+    }
+    handleGameLoop(){
+        if(Math.random() <= 0.002) {
+        let cloudSpell = new Spell();
+        cloudSpell.x = this.x;
+        cloudSpell.y = this.y + 70;
+        cloudSpell.setImage("lightning.png");
+        cloudSpell.angle = 270;
+        }
+    }
+}
+
+new Cloud(5, Math.random(1) * 100, 100);
+new Cloud(200, Math.random(1) * 100, 100);
+new Cloud(300, Math.random() * 100, 100);
+
+
+class Spell extends Sprite {
+    constructor() {
+        super();
+        this.speed = 600;
+        this.height = 48;
+        this.width = 48;
+    }
+    handleCollision(otherSprite){
+        if(otherSprite === ann){
+            game.end("Ann was struck by lightning!");
+        }
+        else{
+            game.removeSprite(this);
+        }
+            
+        return false;
+    }
+    handleBoundaryContact(){
+        game.removeSprite(this);
+    }
+    
+}

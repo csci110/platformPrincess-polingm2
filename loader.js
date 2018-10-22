@@ -14,3 +14,6 @@ game.preloadImage("TombStone1.png");
 game.preloadImage("tileFloatCenter.png");
 game.preloadImage("tileFloatLeft.png");
 game.preloadImage("tileFloatRight.png");
+game.preloadImage("newslider.png");
+game.preloadImage("cloud.png");
+game.preloadImage("lightning.png");
