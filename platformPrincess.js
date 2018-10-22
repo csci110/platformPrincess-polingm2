@@ -258,6 +258,7 @@ class Spell extends Sprite {
         this.speed = 600;
         this.height = 48;
         this.width = 48;
+        this.accelerateOnBounce = false;
     }
     handleCollision(otherSprite){
         if(otherSprite === ann){
